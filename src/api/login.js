@@ -27,10 +27,21 @@ export function getUserInfo(token) {
   })
 }
 
-export function registerNewUser(params) {
+const registerNewUser = ({ username, password, vcode, phone }) => request.post('/user-service/user/user', {
+  username,
+  password,
+  vcode,
+  phone
+})
+
+export function sendSms(params) {
   return request({
-    url: '/user-service/user/user',
-    method: 'post',
+    url: '/user-service/user/sms',
+    method: 'get',
     params: params
   })
+}
+
+export default {
+  registerNewUser
 }

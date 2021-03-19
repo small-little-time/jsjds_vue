@@ -1,14 +1,23 @@
 <template>
   <div class="login-container">
-    <transition  name="fade" v-on:before-enter="beforeEnter"  v-on:after-leave="afterLeave">
+    <transition name="fade" @before-enter="beforeEnter" @after-leave="afterLeave">
 
-      <el-form v-if="current=='login'" key="login" ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" :style="loginsty">
+      <el-form
+        v-if="current=='login'"
+        key="login"
+        ref="loginForm"
+        :model="loginForm"
+        :rules="loginRules"
+        :style="loginsty"
+        class="login-form"
+        auto-complete="on"
+        label-position="left">
         <div class="title-container">
           <h3 class="title">
             {{ $t('login.title') }}<br><br>
-            {{$t('login.opt')}}
+            {{ $t('login.opt') }}
           </h3>
-          <lang-select class="set-language" />
+          <lang-select class="set-language"/>
         </div>
 
         <el-form-item prop="username">
@@ -37,26 +46,39 @@
             @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
           </span>
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleLogin">
           {{ $t('login.logIn') }}
         </el-button>
 
-        <el-button  type="primary" @click="changeState()" style="float:right">
-            {{ $t('login.toregist') }}
-          </el-button>
+        <el-button type="primary" style="float:right" @click="changeState()">
+          {{ $t('login.toregist') }}
+        </el-button>
       </el-form>
 
-      <el-form v-else key="regist" ref="registerForm" :model="registerForm" :rules="registerRules" class="login-form" auto-complete="on" label-position="left" :style="registsty">
+      <el-form
+        v-else
+        key="regist"
+        ref="registerForm"
+        :model="registerForm"
+        :rules="registerRules"
+        :style="registsty"
+        class="login-form"
+        auto-complete="on"
+        label-position="left">
         <div class="title-container">
           <h3 class="title">
             {{ $t('register.title') }}<br><br>
-            {{$t('register.opt')}}
+            {{ $t('register.opt') }}
           </h3>
-          <lang-select class="set-language" />
+          <lang-select class="set-language"/>
         </div>
 
         <el-form-item prop="username">
@@ -102,34 +124,51 @@
             @keyup.enter.native="handleLogin"
           />
           <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
           </span>
         </el-form-item>
 
+        <el-form-item prop="phone">
+          <span class="svg-container">
+            <svg-icon icon-class="phone"/>
+          </span>
+          <el-input
+            v-model="registerForm.phone"
+            :placeholder="$t('register.phone')"
+            name="phone"
+          />
+        </el-form-item>
+
         <el-form-item prop="vcode" style="width:70%;float:left;">
-          <span class="svg-container" >
-            <svg-icon icon-class="vcode" />
+          <span class="svg-container">
+            <svg-icon icon-class="vcode"/>
           </span>
           <el-input
             v-model="registerForm.vcode"
             :placeholder="$t('register.vcode')"
             name="vcode"
             type="text"
-            auto-complete="on" @focus="getVcode"/>
-        </el-form-item>
-
-        <el-form-item  style="width:25%;float:right;height:50px">
-          <img  :src="vcodesrc" width="100%" v-if="vcodeshow" @click="changeVcode" style="border-radius:3px">
-          <el-input v-else 
-            :placeholder="$t('register.vcodetip')"
+            auto-complete="on"
           />
         </el-form-item>
 
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">
+        <el-form-item style="width:25%;float:right">
+          <el-container id="msg">
+            <el-button :disabled="isMsgDisabled" type="success" style="width: 100%;height: 100%" @click="sendMsg">
+              {{ buttonName }}
+            </el-button>
+          </el-container>
+        </el-form-item>
+
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;margin-bottom:30px;"
+          @click.native.prevent="handleRegister">
           {{ $t('register.register') }}
         </el-button>
-        <el-button class="gosign-button" type="primary" @click="changeState()" style="float:right">
-            {{ $t('register.tologin') }}
+        <el-button class="gosign-button" type="primary" style="float:right" @click="changeState()">
+          {{ $t('register.tologin') }}
         </el-button>
       </el-form>
     </transition>
@@ -137,29 +176,29 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
-import { log } from 'util';
-import { registerNewUser } from '@/api/login'
+
+// eslint-disable-next-line no-unused-vars
+import login from '@/api/login'
+import { sendSms } from '@/api/login'
+// eslint-disable-next-line no-unused-vars
+import user from '../../api/user'
 
 export default {
   name: 'Login',
   components: { LangSelect, SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if(value.length!=10){
-        callback(new Error('请输入正确的学号'))
-      }else if(value.substring(0,2)!="16"
-      &&value.substring(0,2)!="17"
-      &&value.substring(0,2)!="18"
-      &&value.substring(0,2)!="19"){
+      if (value.length !== 10) {
         callback(new Error('请输入正确的学号'))
       }
       callback()
     }
     const validateLloginUsername = (rule, value, callback) => {
-      if(value==null||value==''){
+      if (value == null || value === '') {
         callback(new Error('请输入正确的学号'))
       }
       callback()
@@ -172,8 +211,8 @@ export default {
       }
     }
 
-     const validatePhoneNumber = (rule, value, callback) => {
-       callback()
+    const validatePhoneNumber = (rule, value, callback) => {
+      callback()
       // if (!isvalidatePhoneNumber(value)) {
       //   callback(new Error('Please enter the correct Phone Number'))
       //   this.isDisabled = true
@@ -190,8 +229,10 @@ export default {
       }
     }
     return {
-      current:'login',
-
+      current: 'login',
+      buttonName: '发送短信',
+      isMsgDisabled: false,
+      time: 10,
       loginForm: {
         username: '',
         password: ''
@@ -205,13 +246,11 @@ export default {
       showDialog: false,
       redirect: undefined,
 
-
-
-
       registerForm: {
         username: '',
         password: '',
         re_password: '',
+        phone: '',
         vcode: ''
       },
       registerRules: {
@@ -223,10 +262,10 @@ export default {
       hasSent: false,
       counttime: 10,
       isDisabled: true,
-      loginsty:'left:50%',
-      registsty:'left:50%',
-      vcodesrc:'',
-      vcodeshow:false
+      loginsty: 'left:50%',
+      registsty: 'left:50%',
+      vcodesrc: '',
+      vcodeshow: false
     }
   },
   watch: {
@@ -244,6 +283,27 @@ export default {
     // window.removeEventListener('hashchange', this.afterQRScan)
   },
   methods: {
+    sendMsg() {
+      const me = this
+      me.isMsgDisabled = true
+      sendSms({ ...this.registerForm }).then((res) => {
+        this.$message.success(res.data.message)
+        // eslint-disable-next-line handle-callback-err
+      }).catch((err) => {
+        this.$message.error(err.response.data.message)
+      })
+      const interval = window.setInterval(() => {
+        me.buttonName = `${me.time}秒后重新发送`
+        // eslint-disable-next-line no-plusplus
+        --me.time
+        if (me.time < 0) {
+          me.buttonName = '重新发送'
+          me.time = 10
+          me.isMsgDisabled = false
+          window.clearInterval(interval)
+        }
+      }, 1000)
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -267,74 +327,73 @@ export default {
         }
       })
     },
-    handleRegister(){
+    handleRegister() {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
-          registerNewUser(this.registerForm).then((res) => {
+          login.registerNewUser(this.registerForm).then((res) => {
             this.loading = false
-            if(res.data.flag){
+            if (res.data.flag) {
               this.$message({
                 message: res.data.message,
                 type: 'success'
-              });
+              })
               this.current = 'login'
-            }else{
-              this.$message.error(res.data.message);
-              if(res.data.code==500020){
-                this.changeVcode();
+            } else {
+              this.$message.error(res.data.message)
+              if (res.data.code === 500020) {
+                return
               }
-              
             }
-          }).catch(() => { this.loading = false })
-
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
-          this.$message.error('请先完成注册信息');
+          this.$message.error('请先完成注册信息')
           return false
         }
       })
     },
-    changeState(){
-      if(this.current=="login"){
-        this.current = "regist"
-      }else{
-        this.current = "login"
+    changeState() {
+      if (this.current === 'login') {
+        this.current = 'regist'
+      } else {
+        this.current = 'login'
       }
     },
-    beforeEnter(){
-      if(this.current=="regist"){
-        this.registsty = "left:80%"
-      }else{
-        this.loginsty="left:80%"
+    beforeEnter() {
+      if (this.current === 'regist') {
+        this.registsty = 'left:80%'
+      } else {
+        this.loginsty = 'left:80%'
       }
     },
-    afterLeave(){
-      if(this.current=="regist"){
-        this.registsty = "left:50%"
-      }else{
-        this.loginsty="left:50%"
+    afterLeave() {
+      if (this.current === 'regist') {
+        this.registsty = 'left:50%'
+      } else {
+        this.loginsty = 'left:50%'
       }
     },
-    getVcode(){
+    getVcode() {
       this.$refs.registerForm.validate(valid => {
-        if(this.vcodesrc==''){
+        if (this.vcodesrc === '') {
           if (valid) {
-            this.vcodesrc = "http://119.23.21.54:10010/user-service/user/vcode?stu_num="+this.registerForm.username;
-            this.vcodeshow = true;
-          }else{
-            this.$message.error('请先完成注册信息');
+            this.vcodesrc = 'http://119.23.21.54:10010/user-service/user/vcode?stu_num=' + this.registerForm.username
+            this.vcodeshow = true
+          } else {
+            this.$message.error('请先完成注册信息')
           }
         }
-        
       })
     },
-    changeVcode(){
+    changeVcode() {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
-            this.vcodesrc = "http://119.23.21.54:10010/user-service/user/vcode?stu_num="+this.registerForm.username+"&date="+new Date();
-          }else{
-            this.$message.error('请先完成注册信息');
-          }
+          this.vcodesrc = 'http://119.23.21.54:10010/user-service/user/vcode?stu_num=' + this.registerForm.username + '&date=' + new Date()
+        } else {
+          this.$message.error('请先完成注册信息')
+        }
       })
     }
   }
@@ -479,14 +538,14 @@ $light_gray:#eee;
   }
   @keyframes moveout {
      10% {
-        opacity: 0.9; 
-        top: 50%;
-        left:50%;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -ms-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
+       opacity: 0.9;
+       top: 50%;
+       left: 50%;
+       -webkit-transform: translateX(-50%) translateY(-50%);
+       -webkit-transform: translateX(-50%) translateY(-50%);
+       -moz-transform: translateX(-50%) translateY(-50%);
+       -ms-transform: translateX(-50%) translateY(-50%);
+       transform: translateX(-50%) translateY(-50%);
      }
      100% {
         opacity: 0;
@@ -500,14 +559,14 @@ $light_gray:#eee;
   }
   @keyframes movein {
      10% {
-        opacity: 0.1; 
-        top: 50%;
-        left:80%;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -ms-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
+       opacity: 0.1;
+       top: 50%;
+       left: 80%;
+       -webkit-transform: translateX(-50%) translateY(-50%);
+       -webkit-transform: translateX(-50%) translateY(-50%);
+       -moz-transform: translateX(-50%) translateY(-50%);
+       -ms-transform: translateX(-50%) translateY(-50%);
+       transform: translateX(-50%) translateY(-50%);
      }
      100% {
         opacity: 1;
