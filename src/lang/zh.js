@@ -85,7 +85,7 @@ export default {
     size: '布局大小'
   },
   login: {
-    title: '第九届怀化学院大学生计算机设计大赛',
+    title: '怀化学院大学生计算机设计大赛',
     opt: '系统登录',
     logIn: '登录',
     username: '学号',
@@ -96,7 +96,7 @@ export default {
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
   },
   register: {
-    title: '第八届怀化学院大学生计算机设计大赛',
+    title: '怀化学院大学生计算机设计大赛',
     opt: '系统注册',
     register: '注册',
     username: '学号',

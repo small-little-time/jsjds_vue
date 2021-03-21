@@ -232,7 +232,7 @@ export default {
       current: 'login',
       buttonName: '发送短信',
       isMsgDisabled: false,
-      time: 10,
+      time: 60,
       loginForm: {
         username: '',
         password: ''
@@ -298,7 +298,7 @@ export default {
         --me.time
         if (me.time < 0) {
           me.buttonName = '重新发送'
-          me.time = 10
+          me.time = 60
           me.isMsgDisabled = false
           window.clearInterval(interval)
         }

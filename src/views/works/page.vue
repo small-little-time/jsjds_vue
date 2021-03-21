@@ -3,7 +3,7 @@
     <div style="float:left;">
       友情提示：带<span style="color:red">*</span>号为必填<br>
       <!-- 完善作品功能将于<span style="color:red">3月30日</span>至<span style="color:red">4月8日</span>开放 -->
-      <span style="color:red">本功能将于5月25日关闭</span>
+      <!--      <span style="color:red">本功能将于5月25日关闭</span>-->
     </div>
     <br>
     <br>
@@ -175,31 +175,32 @@ export default {
       callback()
     }
     const max550 = (rule, value, callback) => {
-      let total = this.form.works_name.length + this.form.teacher_name.length + this.form.works_introduction.length + this.form.works_url.length
-      if (this.form.operating_instructions !== null) {
-        total += this.form.operating_instructions.length
-      }
-      if (this.form.installation_instructions !== null) {
-        total += this.form.installation_instructions.length
-      }
-      if (this.form.design_thought !== null) {
-        total += this.form.design_thought.length
-      }
-      if (this.form.design_point !== null) {
-        total += this.form.design_point.length
-      }
-      if (this.form.other_description !== null) {
-        total += this.form.other_description.length
-      }
-      if (this.form.imagestring !== null) {
-        total += this.form.imagestring.length
-      }
-      if (total > 550) {
-        callback(new Error('当前页面最多可输入550个字符'))
-      }
-      if (value.length > 150) {
-        callback(new Error('最大为20个字符'))
-      }
+      /*  let total = this.form.works_name.length + this.form.teacher_name.length + this.form.works_introduction.length + this.form.works_url.length
+        if (this.form.operating_instructions !== null) {
+          total += this.form.operating_instructions.length
+        }
+        if (this.form.installation_instructions !== null) {
+          total += this.form.installation_instructions.length
+        }
+        if (this.form.design_thought !== null) {
+          total += this.form.design_thought.length
+        }
+        if (this.form.design_point !== null) {
+          total += this.form.design_point.length
+        }
+        if (this.form.other_description !== null) {
+          total += this.form.other_description.length
+        }
+        if (this.form.imagestring !== null) {
+          total += this.form.imagestring.length
+        }
+        if (total > 550) {
+          callback(new Error('当前页面最多可输入550个字符'))
+        }
+        if (value.length > 150) {
+          callback(new Error('最大为20个字符'))
+        }
+        callback()*/
       callback()
     }
     return {
