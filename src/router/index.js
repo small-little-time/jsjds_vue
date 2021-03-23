@@ -77,8 +77,8 @@ export const constantRouterMap = [
         meta: { title: 'dashboard', icon: 'dashboard', noCache: true, affix: true }
       }
     ]
-  },
-  
+  }
+
 ]
 
 export default new Router({
@@ -169,6 +169,28 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/allowfillter',
+    component: Layout,
+    redirect: '/allowfillter/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '报名限制配置',
+      icon: 'edit',
+      roles: ['ROLE_SYSADMIN'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'allowConfig',
+        component: () => import('@/views/allowfillter/AllowConfig'),
+        name: 'AllowConfig',
+        meta: {
+          title: '允许专业组报名限制配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
+  {
     path: '/mytask',
     component: Layout,
     redirect: '/mytask/index',
@@ -208,7 +230,7 @@ export const asyncRouterMap = [
     meta: {
       title: 'final',
       icon: 'lock',
-      roles: ['ROLE_FINALRATER','ROLE_SYSADMIN'] // you can set roles in root nav
+      roles: ['ROLE_FINALRATER', 'ROLE_SYSADMIN'] // you can set roles in root nav
     },
     children: [
       {
@@ -235,13 +257,13 @@ export const asyncRouterMap = [
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'documentation', icon: 'documentation', affix: true ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'documentation', icon: 'documentation', affix: true, roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -249,13 +271,13 @@ export const asyncRouterMap = [
     path: '/guide',
     component: Layout,
     redirect: '/guide/index',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/guide/index'),
         name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true,roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'guide', icon: 'guide', noCache: true, roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -295,13 +317,13 @@ export const asyncRouterMap = [
   {
     path: '/icon',
     component: Layout,
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/svg-icons/index'),
         name: 'Icons',
-        meta: { title: 'icons', icon: 'icon', noCache: true,roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'icons', icon: 'icon', noCache: true, roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -328,20 +350,20 @@ export const asyncRouterMap = [
         path: 'create',
         component: () => import('@/views/example/create'),
         name: 'CreateArticle',
-        meta: { title: 'createArticle', icon: 'edit',roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'createArticle', icon: 'edit', roles: ['ROLE_SYSADMIN'] }
       },
       {
         path: 'edit/:id(\\d+)',
         component: () => import('@/views/example/edit'),
         name: 'EditArticle',
-        meta: { title: 'editArticle', noCache: true ,roles: ['ROLE_SYSADMIN']},
+        meta: { title: 'editArticle', noCache: true, roles: ['ROLE_SYSADMIN'] },
         hidden: true
       },
       {
         path: 'list',
         component: () => import('@/views/example/list'),
         name: 'ArticleList',
-        meta: { title: 'articleList', icon: 'list',roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'articleList', icon: 'list', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -349,13 +371,13 @@ export const asyncRouterMap = [
   {
     path: '/tab',
     component: Layout,
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/tab/index'),
         name: 'Tab',
-        meta: { title: 'tab', icon: 'tab', roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'tab', icon: 'tab', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -375,13 +397,13 @@ export const asyncRouterMap = [
         path: '401',
         component: () => import('@/views/errorPage/401'),
         name: 'Page401',
-        meta: { title: 'page401', noCache: true ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'page401', noCache: true, roles: ['ROLE_SYSADMIN'] }
       },
       {
         path: '404',
         component: () => import('@/views/errorPage/404'),
         name: 'Page404',
-        meta: { title: 'page404', noCache: true,roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'page404', noCache: true, roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -390,13 +412,13 @@ export const asyncRouterMap = [
     path: '/error-log',
     component: Layout,
     redirect: 'noredirect',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'log',
         component: () => import('@/views/errorLog/index'),
         name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'errorLog', icon: 'bug', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -416,19 +438,19 @@ export const asyncRouterMap = [
         path: 'export-excel',
         component: () => import('@/views/excel/exportExcel'),
         name: 'ExportExcel',
-        meta: { title: 'exportExcel' ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'exportExcel', roles: ['ROLE_SYSADMIN'] }
       },
       {
         path: 'export-selected-excel',
         component: () => import('@/views/excel/selectExcel'),
         name: 'SelectExcel',
-        meta: { title: 'selectExcel' ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'selectExcel', roles: ['ROLE_SYSADMIN'] }
       },
       {
         path: 'upload-excel',
         component: () => import('@/views/excel/uploadExcel'),
         name: 'UploadExcel',
-        meta: { title: 'uploadExcel',roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'uploadExcel', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -438,13 +460,13 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/zip/download',
     alwaysShow: true,
-    meta: { title: 'zip', icon: 'zip',roles: ['ROLE_SYSADMIN'] },
+    meta: { title: 'zip', icon: 'zip', roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'download',
         component: () => import('@/views/zip/index'),
         name: 'ExportZip',
-        meta: { title: 'exportZip',roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'exportZip', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -453,33 +475,33 @@ export const asyncRouterMap = [
     path: '/pdf',
     component: Layout,
     redirect: '/pdf/index',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/pdf/index'),
         name: 'PDF',
-        meta: { title: 'pdf', icon: 'pdf' ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'pdf', icon: 'pdf', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
   {
     path: '/pdf/download',
     component: () => import('@/views/pdf/download'),
-    hidden: true,
+    hidden: true
   },
 
   {
     path: '/theme',
     component: Layout,
     redirect: 'noredirect',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/theme/index'),
         name: 'Theme',
-        meta: { title: 'theme', icon: 'theme', roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'theme', icon: 'theme', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -488,13 +510,13 @@ export const asyncRouterMap = [
     path: '/clipboard',
     component: Layout,
     redirect: 'noredirect',
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/clipboard/index'),
         name: 'ClipboardDemo',
-        meta: { title: 'clipboardDemo', icon: 'clipboard' ,roles: ['ROLE_SYSADMIN']}
+        meta: { title: 'clipboardDemo', icon: 'clipboard', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -502,13 +524,13 @@ export const asyncRouterMap = [
   {
     path: '/i18n',
     component: Layout,
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'index',
         component: () => import('@/views/i18n-demo/index'),
         name: 'I18n',
-        meta: { title: 'i18n', icon: 'international',roles: ['ROLE_SYSADMIN'] }
+        meta: { title: 'i18n', icon: 'international', roles: ['ROLE_SYSADMIN'] }
       }
     ]
   },
@@ -516,7 +538,7 @@ export const asyncRouterMap = [
   {
     path: 'external-link',
     component: Layout,
-    meta:{roles: ['ROLE_SYSADMIN']},
+    meta: { roles: ['ROLE_SYSADMIN'] },
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',
