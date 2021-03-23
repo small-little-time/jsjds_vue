@@ -10,7 +10,7 @@
         :rules="dataRule"
         label-width="150px"
         @keyup.enter.native="dataFormSubmit()">
-        <el-form-item label="专业" prop="categoryId">
+        <el-form-item label="专业" prop="academyId">
           <el-select v-model="dataForm.academyId" :clearable="true" filterable placeholder="请选择专业">
             <el-option
               v-for="item in professionData"
@@ -18,15 +18,15 @@
               :label="item.academyName"
               :value="item.id"/>
           </el-select>
-          <el-form-item label="比赛分类" prop="categoryId">
-            <el-select v-model="dataForm.academyId" :clearable="true" filterable placeholder="请选择比赛分类">
-              <el-option
-                v-for="item in professionData"
-                :key="item.id"
-                :label="item.academyName"
-                :value="item.id"/>
-            </el-select>
-          </el-form-item>
+        </el-form-item>
+        <el-form-item label="比赛分类" prop="categoryaId">
+          <el-select v-model="dataForm.categoryaId" :clearable="true" filterable placeholder="请选择比赛分类">
+            <el-option
+              v-for="item in categoryData"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"/>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { getAllProfession, getAllCategory, getAllowFilterById } from '@/api/info'
+import { getAllProfession, getAllCategory, getAllowFilterById, updateAllowFilter, insertAllowFilter } from '@/api/info'
 
 export default {
   data() {
@@ -48,7 +48,7 @@ export default {
       professionData: [],
       categoryData: [],
       dataRule: {
-        categoryId: [
+        categoryaId: [
           { required: true, message: '分类不能为空', trigger: 'blur' }
         ],
         academyId: [
@@ -70,7 +70,7 @@ export default {
         if (this.dataForm.id) {
           getAllowFilterById(this.dataForm.id).then((res) => {
             this.dataForm.academyId = res.data.data.academyId
-            this.dataForm.categoryId = res.data.data.categoryaId
+            this.dataForm.categoryaId = res.data.data.categoryaId
             console.log(this.dataForm)
           }).catch((err) => {
             this.$message.error(err.response.data.message)
@@ -95,19 +95,39 @@ export default {
     initForm() {
       return {
         id: 0,
-        categoryId: null,
+        categoryaId: null,
         academyId: null
       }
     },
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
-          // eslint-disable-next-line no-empty
-          if (valid) {
-
+        if (valid) {
+          let api
+          if (!this.dataForm.id) { // 新增
+            api = insertAllowFilter
+          } else { // 修改
+            api = updateAllowFilter
           }
+          api(this.dataForm).then((response) => {
+            if (response && response.data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1000,
+                onClose: () => {
+                  this.visible = false
+                  this.$emit('refreshDataList')
+                }
+              })
+            }
+          }).catch((err) => {
+            this.$message.error(err.response.data.message)
+          })
         }
+      }
       )
     }
+
   }
 }
 

@@ -30,3 +30,27 @@ export function getAllowFilterById(id) {
     method: 'get'
   })
 }
+
+export function insertAllowFilter(params) {
+  return request({
+    url: '/info-service/allowfillter',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateAllowFilter(params) {
+  return request({
+    url: '/info-service/allowfillter',
+    method: 'put',
+    data: params
+  })
+}
+
+export function deleteAllAllowFilter(params) {
+  return request({
+    url: '/info-service/allowfillter',
+    method: 'delete',
+    data: params
+  })
+}

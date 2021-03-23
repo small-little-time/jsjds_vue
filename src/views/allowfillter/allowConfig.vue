@@ -6,7 +6,7 @@
       <el-form>
         <el-form-item>
           <el-button type="primary" style="margin-left: 5%;" @click="addOrUpdateHandle()">新增</el-button>
-          <el-button type="danger">批量删除</el-button>
+          <el-button type="danger" @click="deleteHandle()">批量删除</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -46,7 +46,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +68,7 @@
 
 <script>
 import AddOrUpdate from './allowConfig-add-or-update'
-import { getAllAllowFilter } from '@/api/info'
+import { getAllAllowFilter, deleteAllAllowFilter } from '@/api/info'
 
 export default {
   components: {
@@ -122,6 +122,26 @@ export default {
       // eslint-disable-next-line no-unused-vars
       var ids = id ? [id] : this.dataListSelections.map(item => {
         return item.id
+      })
+      this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        deleteAllAllowFilter(ids).then((response) => {
+          if (response && response.data.code === 0) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+              }
+            })
+          }
+        }).catch((err) => {
+          this.$message.error(err.response.data.message)
+        })
       })
     },
     addOrUpdateHandle(id) {
