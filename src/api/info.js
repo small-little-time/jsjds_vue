@@ -54,3 +54,11 @@ export function deleteAllAllowFilter(params) {
     data: params
   })
 }
+
+export function exportExcel() {
+  return request({
+    url: '/info-service/reviewscore/export',
+    method: 'get',
+    responseType: 'blob'// 二进制流
+  })
+}

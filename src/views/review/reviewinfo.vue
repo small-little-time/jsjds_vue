@@ -1,5 +1,7 @@
 <template>
   <div style="margin-top:10px;margin-left:50px;">
+    <el-button type="danger" @click="exportFirstScoreExcel()">导出Excel</el-button>
+    <span>详细数据请导出Excel查看</span>
     <el-table
       :data="allWorks"
       stripe
@@ -11,10 +13,10 @@
       <el-table-column
         prop="score"
         width="180px"
-        label="分数"/>
+        label="分数(平均分)"/>
       <el-table-column
         prop="desc"
-        width="180px"
+        width="400px"
         label="评语"/>
       <el-table-column
         :formatter="judge"
@@ -25,7 +27,7 @@
         width="120"
         label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" @click="showDetail(scope.row),detailVisible=true">查阅/修改</el-button>
+          <el-button type="primary" @click="showDetail(scope.row),detailVisible=true">查阅</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -65,8 +67,9 @@
         style="line-height:30px;">{{ works.operating_instructions }}<br></span>
       <span v-else style="line-height:30px;">暂无<br></span>
       安装说明:
-      <span v-if="works.installation_instructions!==null&&works.installation_instructions!==''"
-            style="line-height:30px;">{{
+      <span
+        v-if="works.installation_instructions!==null&&works.installation_instructions!==''"
+        style="line-height:30px;">{{
           works.installation_instructions
         }}<br></span>
       <span v-else style="line-height:30px;">暂无<br></span>
@@ -104,7 +107,7 @@
       </el-dialog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailVisible = false">取 消</el-button>
-        <el-button type="primary" @click="getOldScore(works.id);">加入答辩</el-button>
+        <!--        <el-button type="primary" @click="getOldScore(works.id);">加入答辩</el-button>-->
       </div>
     </el-dialog>
   </div>
@@ -112,9 +115,9 @@
 </template>
 
 <script>
-
-import { sysAdminGetAllWorks, oldScore, updataScore, setWorksPassed } from '@/api/review'
-import { types } from 'util'
+import fileDownload from 'js-file-download'
+import { sysAdminGetAllWorks, updataScore, setWorksPassed } from '@/api/review'
+import { exportExcel } from '@/api/info'
 
 export default {
   data() {
@@ -199,9 +202,9 @@ export default {
     },
     judge(data) {
       // taxStatus 布尔值
-      if (data.state == 0) {
+      if (data.score === null) {
         return '尚未评审'
-      } else if (data.state == 1) {
+      } else if (data.score >= 60) {
         return '进入答辩'
       } else {
         return '淘汰'
@@ -209,6 +212,15 @@ export default {
     },
     handleCurrentChange(val) {
       this.initAllWorks(val, this.pageSize)
+    },
+    exportFirstScoreExcel() {
+      exportExcel().then((res) => {
+        this.$message.success('正在下载,请稍等')
+        const fileName = '初评成绩.xlsx'
+        fileDownload(res.data, fileName)
+      }).catch((err) => {
+        this.$message.error(err.response.data.message)
+      })
     }
 
   }
