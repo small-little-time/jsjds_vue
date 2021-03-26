@@ -191,6 +191,28 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/area',
+    component: Layout,
+    redirect: '/area/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '答辩配置',
+      icon: 'edit',
+      roles: ['ROLE_SYSADMIN'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'areaConfig',
+        component: () => import('@/views/area/area'),
+        name: 'areaConfig',
+        meta: {
+          title: '答辩场地配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
+  {
     path: '/mytask',
     component: Layout,
     redirect: '/mytask/index',

@@ -62,3 +62,41 @@ export function exportExcel() {
     responseType: 'blob'// 二进制流
   })
 }
+
+export function getAllArea(params) {
+  return request({
+    url: '/info-service/area',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getAlreadySetCategory() {
+  return request({
+    url: '/info-service/area/existCategory',
+    method: 'get'
+  })
+}
+
+export function areaInsertBatch(params) {
+  return request({
+    url: '/info-service/area/batch',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getAreaById(id) {
+  return request({
+    url: '/info-service/area/' + id,
+    method: 'get'
+  })
+}
+
+export function deleteArea(params) {
+  return request({
+    url: '/info-service/area',
+    method: 'delete',
+    data: params
+  })
+}

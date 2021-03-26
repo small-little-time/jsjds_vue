@@ -71,7 +71,6 @@ export default {
           getAllowFilterById(this.dataForm.id).then((res) => {
             this.dataForm.academyId = res.data.data.academyId
             this.dataForm.categoryaId = res.data.data.categoryaId
-            console.log(this.dataForm)
           }).catch((err) => {
             this.$message.error(err.response.data.message)
           })
