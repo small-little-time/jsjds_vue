@@ -12,8 +12,11 @@
         @keyup.enter.native="dataFormSubmit()">
         <el-form-item v-if="isAdd" label="选择比赛分类" prop="ids">
           <el-checkbox-group v-model="dataForm.ids">
-            <el-checkbox v-for="item in categoryData" :key="item.id" :label="item.id"
-                         :disabled="checkboxCategoryIsExit(item.id)">{{
+            <el-checkbox
+              v-for="item in categoryData"
+              :key="item.id"
+              :label="item.id"
+              :disabled="checkboxCategoryIsExit(item.id)">{{
                 item.name
               }}
             </el-checkbox>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { getAllCategory, areaInsertBatch, getAlreadySetCategory, getAreaById } from '@/api/info'
+import { getAllCategory, areaInsertBatch, getAlreadySetCategory, getAreaById, updateArea } from '@/api/info'
 
 export default {
   data() {
@@ -128,33 +131,33 @@ export default {
     },
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            // eslint-disable-next-line no-unused-vars
-            let api
-            if (!this.dataForm.id) { // 新增
-              api = areaInsertBatch
-            } else { // 修改
-              api = ''
-            }
-            api(this.dataForm).then((response) => {
-              if (response && response.data.code === 50000) {
-                this.$message({
-                  message: '操作成功',
-                  type: 'success',
-                  duration: 1000,
-                  onClose: () => {
-                    this.visible = false
-                    this.$emit('refreshDataList')
-                  }
-                })
-              } else {
-                this.$message.error(response.data.message)
-              }
-            }).catch((err) => {
-              this.$message.error(err.response.data.message)
-            })
+        if (valid) {
+          // eslint-disable-next-line no-unused-vars
+          let api
+          if (!this.dataForm.id) { // 新增
+            api = areaInsertBatch
+          } else { // 修改
+            api = updateArea
           }
+          api(this.dataForm).then((response) => {
+            if (response && response.data.code === 50000) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1000,
+                onClose: () => {
+                  this.visible = false
+                  this.$emit('refreshDataList')
+                }
+              })
+            } else {
+              this.$message.error(response.data.message)
+            }
+          }).catch((err) => {
+            console.log(err)
+          })
         }
+      }
       )
     }
 

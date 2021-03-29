@@ -190,6 +190,7 @@ export const asyncRouterMap = [
       }
     ]
   },
+
   {
     path: '/area',
     component: Layout,
@@ -207,6 +208,22 @@ export const asyncRouterMap = [
         name: 'areaConfig',
         meta: {
           title: '答辩场地配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      }, {
+        path: 'finalTeam',
+        component: () => import('@/views/area/final-team'),
+        name: 'finalTeam',
+        meta: {
+          title: '最终答辩队伍',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      }, {
+        path: 'finalTeamOrder',
+        component: () => import('@/views/area/final-team-order'),
+        name: 'finalTeamOrder',
+        meta: {
+          title: '答辩顺序',
           roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
         }
       }

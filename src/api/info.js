@@ -100,3 +100,83 @@ export function deleteArea(params) {
     data: params
   })
 }
+
+export function uploadFile(params) {
+  return request({
+    url: '/info-service/finalTeam/upload',
+    method: 'post',
+    headers: {
+      'Content-type': 'multipart/form-data'
+    },
+    data: params
+  })
+}
+
+export function downloadTemplate() {
+  return request({
+    url: '/info-service/finalTeam/download',
+    method: 'get',
+    responseType: 'blob'// 二进制流
+  })
+}
+
+export function getAllFinalTeam(params) {
+  return request({
+    url: '/info-service/finalTeam',
+    method: 'get',
+    params: params
+  })
+}
+
+export function deleteFinalTeam(params) {
+  return request({
+    url: '/info-service/finalTeam',
+    method: 'delete',
+    data: params
+  })
+}
+
+export function getAllFinalTeamSeq(params) {
+  return request({
+    url: '/info-service/finalSeq',
+    method: 'get',
+    params: params
+  })
+}
+
+export function updateArea(params) {
+  return request({
+    url: '/info-service/area',
+    method: 'put',
+    data: params
+  })
+}
+
+export function finalTeamGroup() {
+  return request({
+    url: '/info-service/finalSeq/group',
+    method: 'get'
+  })
+}
+
+export function truncateTeamSeq() {
+  return request({
+    url: '/info-service/finalSeq',
+    method: 'delete'
+  })
+}
+
+export function sendNotifySms() {
+  return request({
+    url: '/info-service/notify/sendSms',
+    method: 'get'
+  })
+}
+
+export function exportFinalSeqExcel() {
+  return request({
+    url: '/info-service/finalSeq/exportExcel',
+    method: 'get',
+    responseType: 'blob'// 二进制流
+  })
+}
