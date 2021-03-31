@@ -169,6 +169,37 @@ export const asyncRouterMap = [
     ]
   },
   {
+    path: '/msgConfig',
+    component: Layout,
+    redirect: '/msgConfig/index',
+    alwaysShow: true, // will always show the root menu
+    meta: {
+      title: '报名信息配置',
+      icon: 'edit',
+      roles: ['ROLE_SYSADMIN'] // you can set roles in root nav
+    },
+    children: [
+      {
+        path: 'categoryConfig',
+        component: () => import('@/views/msgConfig/categoryConfig'),
+        name: 'CategoryConfig',
+        meta: {
+          title: '比赛类别配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'academyConfig',
+        component: () => import('@/views/msgConfig/academyConfig'),
+        name: 'academyConfig',
+        meta: {
+          title: '专业信息配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      }
+    ]
+  },
+  {
     path: '/allowfillter',
     component: Layout,
     redirect: '/allowfillter/index',
@@ -185,6 +216,24 @@ export const asyncRouterMap = [
         name: 'AllowConfig',
         meta: {
           title: '允许专业组报名限制配置',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'filterConfig',
+        component: () => import('@/views/filter/filter'),
+        name: 'filterConfig',
+        meta: {
+          title: '非专业组报名限制',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'timeConfig',
+        component: () => import('@/views/time/time'),
+        name: 'timeConfig',
+        meta: {
+          title: '时间配置',
           roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
         }
       }

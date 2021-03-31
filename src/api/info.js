@@ -10,7 +10,15 @@ export function getAllAllowFilter(params) {
 
 export function getAllProfession(params) {
   return request({
-    url: '/info-service/academy/all',
+    url: '/info-service/academy/allProfession',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getAllAcademy(params) {
+  return request({
+    url: '/info-service/academy/allAcademy',
     method: 'get',
     params: params
   })
@@ -178,5 +186,144 @@ export function exportFinalSeqExcel() {
     url: '/info-service/finalSeq/exportExcel',
     method: 'get',
     responseType: 'blob'// 二进制流
+  })
+}
+
+export function timeSet(params) {
+  return request({
+    url: '/user-service/time/set',
+    method: 'post',
+    params: params
+  })
+}
+
+export function timeGet() {
+  return request({
+    url: '/user-service/time/get',
+    method: 'get'
+  })
+}
+
+export function timeGetUpdateVO() {
+  return request({
+    url: '/user-service/time/get/updateVO',
+    method: 'get'
+  })
+}
+
+export function getAllFilter(params) {
+  return request({
+    url: '/info-service/fillter',
+    method: 'get',
+    params: params
+  })
+}
+
+export function deleteFilter(params) {
+  return request({
+    url: '/info-service/fillter',
+    method: 'delete',
+    data: params
+  })
+}
+
+export function getFilterById(id) {
+  return request({
+    url: '/info-service/fillter/' + id,
+    method: 'get'
+  })
+}
+
+export function updateFilter(params) {
+  return request({
+    url: '/info-service/fillter',
+    method: 'put',
+    data: params
+  })
+}
+
+export function insertFilter(params) {
+  return request({
+    url: '/info-service/fillter',
+    method: 'post',
+    data: params
+  })
+}
+
+export function getCategory(params) {
+  return request({
+    url: '/info-service/category',
+    method: 'get',
+    params: params
+  })
+}
+
+export function getCategoryById(id) {
+  return request({
+    url: '/info-service/category/' + id,
+    method: 'get'
+  })
+}
+
+export function insertCategory(params) {
+  return request({
+    url: '/info-service/category',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateCategory(params) {
+  return request({
+    url: '/info-service/category',
+    method: 'put',
+    data: params
+  })
+}
+
+export function deleteCategory(params) {
+  return request({
+    url: '/info-service/category',
+    method: 'delete',
+    data: params
+  })
+}
+
+export function getAcademy(params) {
+  return request({
+    url: '/info-service/academy',
+    method: 'get',
+    params: params
+  })
+}
+
+export function insertAcademy(params) {
+  return request({
+    url: '/info-service/academy',
+    method: 'post',
+    data: params
+  })
+}
+
+export function updateAcademy(params) {
+  return request({
+    url: '/info-service/academy',
+    method: 'put',
+    data: params
+  })
+}
+
+export function deleteAcademy(params) {
+  return request({
+    url: '/info-service/academy',
+    method: 'delete',
+    data: params
+  })
+}
+
+export function getAcademyById(id) {
+  return request({
+    url: '/info-service/academy/' + id,
+    method: 'get'
   })
 }

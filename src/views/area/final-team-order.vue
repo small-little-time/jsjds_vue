@@ -123,53 +123,65 @@ export default {
     },
     // 删除
     deleteHandle() {
-      const loading = this.$loading({
-        lock: true,
-        text: '删除中',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      truncateTeamSeq().then((response) => {
-        if (response && response.data.code === 50000) {
-          this.$message({
-            message: '操作成功',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              this.getDataList()
-              loading.close()
-            }
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
+      this.$confirm(`确定进行清空操作？？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const loading = this.$loading({
+          lock: true,
+          text: '删除中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        truncateTeamSeq().then((response) => {
+          if (response && response.data.code === 50000) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+                loading.close()
+              }
+            })
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
       })
     },
     sendNotifySms() {
-      const loading = this.$loading({
-        lock: true,
-        text: '后台正在缓慢发送',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      sendNotifySms().then((response) => {
-        if (response && response.data.code === 50000) {
-          this.$message({
-            message: '后台正在缓慢发送，发送成功后会短信提醒',
-            type: 'success',
-            duration: 3000,
-            onClose: () => {
-              this.getDataList()
-              loading.close()
-            }
-          })
-        } else {
-          this.$message.error(response.data.message)
+      this.$confirm(`发送短信提示？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const loading = this.$loading({
+          lock: true,
+          text: '后台正在缓慢发送',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        sendNotifySms().then((response) => {
+          if (response && response.data.code === 50000) {
+            this.$message({
+              message: '后台正在缓慢发送，发送成功后会短信提醒',
+              type: 'success',
+              duration: 3000,
+              onClose: () => {
+                this.getDataList()
+                loading.close()
+              }
+            })
+          } else {
+            this.$message.error(response.data.message)
+            loading.close()
+          }
+        }).catch((err) => {
           loading.close()
-        }
-      }).catch((err) => {
-        loading.close()
-        this.$message.error(err.response.data.message)
+          this.$message.error(err.response.data.message)
+        })
       })
     },
     exportExcel() {
@@ -189,30 +201,36 @@ export default {
       })
     },
     addOrUpdateHandle() {
-      const loading = this.$loading({
-        lock: true,
-        text: '生成中',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
-      finalTeamGroup().then((response) => {
-        if (response && response.data.code === 50000) {
-          this.$message({
-            message: '后台正在生成，请一分钟后刷新页面',
-            type: 'success',
-            duration: 1500,
-            onClose: () => {
-              // this.getDataList()
-              loading.close()
-            }
-          })
-        } else {
-          this.$message.error(response.data.message)
+      this.$confirm(`确定生成答辩排序信息？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const loading = this.$loading({
+          lock: true,
+          text: '生成中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        })
+        finalTeamGroup().then((response) => {
+          if (response && response.data.code === 50000) {
+            this.$message({
+              message: '后台正在生成，请一分钟后刷新页面',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                // this.getDataList()
+                loading.close()
+              }
+            })
+          } else {
+            this.$message.error(response.data.message)
+            loading.close()
+          }
+        }).catch((err) => {
           loading.close()
-        }
-      }).catch((err) => {
-        loading.close()
-        this.$message.error(err.response.data.message)
+          this.$message.error(err.response.data.message)
+        })
       })
     }
   }
