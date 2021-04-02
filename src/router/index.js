@@ -275,6 +275,14 @@ export const asyncRouterMap = [
           title: '答辩顺序',
           roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
         }
+      }, {
+        path: 'finalScore',
+        component: () => import('@/views/final/finalScore'),
+        name: 'finalScore',
+        meta: {
+          title: '最终答辩成绩',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
       }
     ]
   },
@@ -341,7 +349,7 @@ export const asyncRouterMap = [
       }
     ]
   },
-  {
+  /*  {
     path: '/documentation',
     component: Layout,
     redirect: '/documentation/index',
@@ -414,16 +422,16 @@ export const asyncRouterMap = [
         meta: { title: 'icons', icon: 'icon', noCache: true, roles: ['ROLE_SYSADMIN'] }
       }
     ]
-  },
+  },*/
 
   /** When your routing table is too long, you can split it into small modules**/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
-  treeTableRouter,
+  /*  componentsRouter,
+    chartsRouter,
+    nestedRouter,
+    tableRouter,
+    treeTableRouter,*/
 
-  {
+  /* {
     path: '/example',
     component: Layout,
     redirect: '/example/list',
@@ -633,7 +641,7 @@ export const asyncRouterMap = [
         meta: { title: 'externalLink', icon: 'link' }
       }
     ]
-  },
+  },*/
 
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -287,7 +287,11 @@ export default {
       const me = this
       me.isMsgDisabled = true
       sendSms({ ...this.registerForm }).then((res) => {
-        this.$message.success(res.data.message)
+        if (res.data.code === 50000) {
+          this.$message.success(res.data.message)
+        } else {
+          this.$message.error(res.data.message)
+        }
         // eslint-disable-next-line handle-callback-err
       }).catch((err) => {
         this.$message.error(err.response.data.message)

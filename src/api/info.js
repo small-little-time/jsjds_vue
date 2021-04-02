@@ -327,3 +327,19 @@ export function getAcademyById(id) {
     method: 'get'
   })
 }
+
+export function getFinalScore(params) {
+  return request({
+    url: '/info-service/finalscore/all',
+    method: 'get',
+    params: params
+  })
+}
+
+export function exportFinalScore() {
+  return request({
+    url: '/info-service/finalscore/exportExcel',
+    method: 'get',
+    responseType: 'blob'// 二进制流
+  })
+}

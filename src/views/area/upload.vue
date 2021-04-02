@@ -110,9 +110,16 @@ export default {
       }
     },
     downloadTemplate() {
+      const loading = this.$loading({
+        lock: true,
+        text: '正在下载,请稍等',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       downloadTemplate().then((res) => {
-        this.$message.success('正在下载,请稍等')
+        this.$message.success('下载成功')
         const fileName = '答辩队伍.xlsx'
+        loading.close()
         fileDownload(res.data, fileName)
       }).catch((err) => {
         this.$message.error(err.response.data.message)

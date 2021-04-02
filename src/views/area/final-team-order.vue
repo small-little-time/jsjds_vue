@@ -168,7 +168,7 @@ export default {
             this.$message({
               message: '后台正在缓慢发送，发送成功后会短信提醒',
               type: 'success',
-              duration: 3000,
+              duration: 1500,
               onClose: () => {
                 this.getDataList()
                 loading.close()

@@ -214,8 +214,15 @@ export default {
       this.initAllWorks(val, this.pageSize)
     },
     exportFirstScoreExcel() {
+      const loading = this.$loading({
+        lock: true,
+        text: '正在下载,请稍等',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
       exportExcel().then((res) => {
-        this.$message.success('正在下载,请稍等')
+        this.$message.success('下载成功')
+        loading.close()
         const fileName = '初评成绩.xlsx'
         fileDownload(res.data, fileName)
       }).catch((err) => {
