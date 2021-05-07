@@ -215,7 +215,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/allowfillter/AllowConfig'),
         name: 'AllowConfig',
         meta: {
-          title: '允许专业组报名限制配置',
+          title: '专业组报名限制',
           roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
         }
       },
@@ -273,14 +273,6 @@ export const asyncRouterMap = [
         name: 'finalTeamOrder',
         meta: {
           title: '答辩顺序',
-          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
-        }
-      }, {
-        path: 'finalScore',
-        component: () => import('@/views/final/finalScore'),
-        name: 'finalScore',
-        meta: {
-          title: '最终答辩成绩',
           roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
         }
       }
@@ -341,11 +333,20 @@ export const asyncRouterMap = [
         name: 'completed',
         meta: { title: 'completed', icon: 'form', noCache: true, roles: ['ROLE_FINALRATER'] }
       },
+      /*      {
+              path: 'finalinfo',
+              component: () => import('@/views/final/finalinfo'),
+              name: 'finalinfo',
+              meta: { title: 'finalinfo', icon: 'form', noCache: true, roles: ['ROLE_SYSADMIN'] }
+            },*/
       {
-        path: 'finalinfo',
-        component: () => import('@/views/final/finalinfo'),
-        name: 'finalinfo',
-        meta: { title: 'finalinfo', icon: 'form', noCache: true, roles: ['ROLE_SYSADMIN'] }
+        path: 'finalScore',
+        component: () => import('@/views/final/finalScore'),
+        name: 'finalScore',
+        meta: {
+          title: '最终答辩成绩',
+          roles: ['ROLE_SYSADMIN'] // or you can only set roles in sub nav
+        }
       }
     ]
   },

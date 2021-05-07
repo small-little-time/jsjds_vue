@@ -84,7 +84,7 @@
           <el-input
             v-model="form.works_url"
             type="text"
-            placeholder="http开头"/>
+            placeholder="https开头"/>
         </el-form-item>
         <el-form-item label="提取码" class="auth-name" prop="works_key">
           <el-input
@@ -159,8 +159,8 @@ export default {
       callback()
     }
     const validUrl = (rule, value, callback) => {
-      if (!validURL(value)) {
-        callback(new Error('请输入正确的分享链接'))
+      if (value == null || value === '' || !value.startsWith('https')) {
+        callback(new Error('请输入正确分享链接,以https开头'))
       }
       callback()
     }
